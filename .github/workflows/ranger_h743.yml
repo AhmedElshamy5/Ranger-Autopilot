@@ -47,6 +47,8 @@ jobs:
         run: |
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           PATH="/opt/gcc-arm-none-eabi-10/bin:/github/home/.local/bin:$PATH"
+          # bin2hex.py needs intelhex to write the bootloader .hex
+          python3 -m pip install --user intelhex
           ranger/scripts/build_fw.sh --rebuild-bootloader
       - name: check build outputs
         shell: bash

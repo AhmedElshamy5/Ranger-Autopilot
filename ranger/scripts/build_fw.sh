@@ -57,6 +57,12 @@ fi
 # the main build embeds Tools/bootloaders/<board>_bl.bin
 if [ "$REBUILD_BL" = 1 ] || [ ! -f "Tools/bootloaders/${BOARD}_bl.bin" ]; then
     run Tools/scripts/build_bootloaders.py "$BOARD"
+    # upstream's script prints "Failed boards" but still exits 0 (for
+    # example when bin2hex cannot import intelhex), so check it here
+    if grep -q "Failed boards" "$LOG"; then
+        echo "ERROR: bootloader build failed, see $LOG" >&2
+        exit 1
+    fi
 else
     echo "using committed Tools/bootloaders/${BOARD}_bl.bin" | tee -a "$LOG"
 fi
