@@ -1,0 +1,108 @@
+Ref,Connector model,Pin,Net,Function,Voltage domain,Direction,Mating cable / module,Verification status
+J1,2 SMD wire pads 2x3 mm,1,+BATT,battery input,VBAT 6-16.8 V,power,Battery wires (parallel with J_ESC1 pin 1),CONFIRMED_IN_SCHEMATIC
+J1,2 SMD wire pads 2x3 mm,2,GND,ground,0 V,power,Battery wires (parallel with J_ESC1 pin 1),CONFIRMED_IN_SCHEMATIC
+J_BUZ1,2 SMD wire pads 2x3 mm,1,+5V,5 V supply out,"5 V (5V_MAIN, present on battery only)",power,Buzzer wires,CONFIRMED_IN_SCHEMATIC
+J_BUZ1,2 SMD wire pads 2x3 mm,2,BUZ_N,BUZ_N,3.3 V logic,,Buzzer wires,CONFIRMED_IN_SCHEMATIC
+J_CAN1,"JST SM04B-GHS-TB (GH, 4p)",1,+5V,5 V supply out,"5 V (5V_MAIN, present on battery only)",power,DroneCAN node,CONFIRMED_IN_SCHEMATIC
+J_CAN1,"JST SM04B-GHS-TB (GH, 4p)",2,CAN_H,CAN_H,3.3 V logic,,DroneCAN node,CONFIRMED_IN_SCHEMATIC
+J_CAN1,"JST SM04B-GHS-TB (GH, 4p)",3,CAN_L,CAN_L,3.3 V logic,,DroneCAN node,CONFIRMED_IN_SCHEMATIC
+J_CAN1,"JST SM04B-GHS-TB (GH, 4p)",4,GND,ground,0 V,power,DroneCAN node,CONFIRMED_IN_SCHEMATIC
+J_CAN1,"JST SM04B-GHS-TB (GH, 4p)",MP,GND,ground,0 V,power,DroneCAN node,CONFIRMED_IN_SCHEMATIC
+J_COMP1,"JST SM06B-GHS-TB (GH, 6p)",1,+5V,5 V supply out,"5 V (5V_MAIN, present on battery only)",power,Companion computer (OpenMV N6),CONFIRMED_IN_SCHEMATIC
+J_COMP1,"JST SM06B-GHS-TB (GH, 6p)",2,COMP_TX,Companion TX,3.3 V logic,out (FC side),Companion computer (OpenMV N6),CONFIRMED_IN_SCHEMATIC
+J_COMP1,"JST SM06B-GHS-TB (GH, 6p)",3,COMP_RX,Companion RX,3.3 V logic,in (FC side),Companion computer (OpenMV N6),CONFIRMED_IN_SCHEMATIC
+J_COMP1,"JST SM06B-GHS-TB (GH, 6p)",4,COMP_GPIO,Spare GPIO on companion connector pin 4,3.3 V logic,bidir (FC side),Companion computer (OpenMV N6),CONFIRMED_IN_SCHEMATIC
+J_COMP1,"JST SM06B-GHS-TB (GH, 6p)",5,NC,not connected,,,Companion computer (OpenMV N6),CONFIRMED_IN_SCHEMATIC
+J_COMP1,"JST SM06B-GHS-TB (GH, 6p)",6,GND,ground,0 V,power,Companion computer (OpenMV N6),CONFIRMED_IN_SCHEMATIC
+J_COMP1,"JST SM06B-GHS-TB (GH, 6p)",MP,GND,ground,0 V,power,Companion computer (OpenMV N6),CONFIRMED_IN_SCHEMATIC
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",1,+BATT,battery input,VBAT 6-16.8 V,power,4-in-1 ESC harness,PROVISIONAL
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",2,GND,ground,0 V,power,4-in-1 ESC harness,PROVISIONAL
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",3,ESC_CURR,ESC_CURR,3.3 V logic,,4-in-1 ESC harness,PROVISIONAL
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",4,ESC_TLM_RX,ESC telemetry RX (TX pin PE1 is not connected),3.3 V logic,in (FC side),4-in-1 ESC harness,PROVISIONAL
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",5,M1,Motor output 1,3.3 V logic,out (bidir for BDShot) (FC side),4-in-1 ESC harness,PROVISIONAL
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",6,M2,Motor output 2,3.3 V logic,out (bidir for BDShot) (FC side),4-in-1 ESC harness,PROVISIONAL
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",7,M3,Motor output 3,3.3 V logic,out (bidir for BDShot) (FC side),4-in-1 ESC harness,PROVISIONAL
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",8,M4,Motor output 4,3.3 V logic,out (bidir for BDShot) (FC side),4-in-1 ESC harness,PROVISIONAL
+J_ESC1,"JST SM08B-SRSS-TB (SH 1.0 mm, 8p)",MP,GND,ground,0 V,power,4-in-1 ESC harness,PROVISIONAL
+J_FLOW1,"JST SM07B-GHS-TB (GH, 7p)",1,+3V3,3.3 V out,3.3 V,power,Optical-flow SPI module (PMW3901),PROVISIONAL
+J_FLOW1,"JST SM07B-GHS-TB (GH, 7p)",2,FLOW_SCK,FLOW_SCK,3.3 V logic,,Optical-flow SPI module (PMW3901),PROVISIONAL
+J_FLOW1,"JST SM07B-GHS-TB (GH, 7p)",3,EXT_SPI_MISO,Flow sensor data out,3.3 V logic,in (FC side),Optical-flow SPI module (PMW3901),PROVISIONAL
+J_FLOW1,"JST SM07B-GHS-TB (GH, 7p)",4,FLOW_MOSI,FLOW_MOSI,3.3 V logic,,Optical-flow SPI module (PMW3901),PROVISIONAL
+J_FLOW1,"JST SM07B-GHS-TB (GH, 7p)",5,EXT_SPI_CS,Flow sensor chip select,3.3 V logic,out (FC side),Optical-flow SPI module (PMW3901),PROVISIONAL
+J_FLOW1,"JST SM07B-GHS-TB (GH, 7p)",6,EXT_SPI_INT,Flow sensor MOTION interrupt,3.3 V logic,in (FC side),Optical-flow SPI module (PMW3901),PROVISIONAL
+J_FLOW1,"JST SM07B-GHS-TB (GH, 7p)",7,GND,ground,0 V,power,Optical-flow SPI module (PMW3901),PROVISIONAL
+J_FLOW1,"JST SM07B-GHS-TB (GH, 7p)",MP,GND,ground,0 V,power,Optical-flow SPI module (PMW3901),PROVISIONAL
+J_GPS1,"JST SM06B-GHS-TB (GH, 6p)",1,+5V,5 V supply out,"5 V (5V_MAIN, present on battery only)",power,GPS + compass module,CONFIRMED_IN_SCHEMATIC
+J_GPS1,"JST SM06B-GHS-TB (GH, 6p)",2,GPS_TX,GPS UART TX,3.3 V logic,out (FC side),GPS + compass module,CONFIRMED_IN_SCHEMATIC
+J_GPS1,"JST SM06B-GHS-TB (GH, 6p)",3,GPS_RX,GPS UART RX,3.3 V logic,in (FC side),GPS + compass module,CONFIRMED_IN_SCHEMATIC
+J_GPS1,"JST SM06B-GHS-TB (GH, 6p)",4,I2C_EXT_SCL,External I2C on the GPS connector,3.3 V logic,bidir OD (FC side),GPS + compass module,CONFIRMED_IN_SCHEMATIC
+J_GPS1,"JST SM06B-GHS-TB (GH, 6p)",5,I2C_EXT_SDA,External I2C on the GPS connector,3.3 V logic,bidir OD (FC side),GPS + compass module,CONFIRMED_IN_SCHEMATIC
+J_GPS1,"JST SM06B-GHS-TB (GH, 6p)",6,GND,ground,0 V,power,GPS + compass module,CONFIRMED_IN_SCHEMATIC
+J_GPS1,"JST SM06B-GHS-TB (GH, 6p)",MP,GND,ground,0 V,power,GPS + compass module,CONFIRMED_IN_SCHEMATIC
+J_LIDAR1,"JST SM04B-GHS-TB (GH, 4p)",1,+5V,5 V supply out,"5 V (5V_MAIN, present on battery only)",power,LiDAR (TFmini-S),CONFIRMED_IN_SCHEMATIC
+J_LIDAR1,"JST SM04B-GHS-TB (GH, 4p)",2,LIDAR_TX,LiDAR UART TX,3.3 V logic,out (FC side),LiDAR (TFmini-S),CONFIRMED_IN_SCHEMATIC
+J_LIDAR1,"JST SM04B-GHS-TB (GH, 4p)",3,LIDAR_RX,LiDAR UART RX,3.3 V logic,in (FC side),LiDAR (TFmini-S),CONFIRMED_IN_SCHEMATIC
+J_LIDAR1,"JST SM04B-GHS-TB (GH, 4p)",4,GND,ground,0 V,power,LiDAR (TFmini-S),CONFIRMED_IN_SCHEMATIC
+J_LIDAR1,"JST SM04B-GHS-TB (GH, 4p)",MP,GND,ground,0 V,power,LiDAR (TFmini-S),CONFIRMED_IN_SCHEMATIC
+J_RC1,"JST SM04B-GHS-TB (GH 1.25 mm, 4p)",1,+5V,5 V supply out,"5 V (5V_MAIN, present on battery only)",power,RC receiver (CRSF/ELRS/SBUS),CONFIRMED_IN_SCHEMATIC
+J_RC1,"JST SM04B-GHS-TB (GH 1.25 mm, 4p)",2,RC_RX,RC receiver RX. SBUS needs RX inversion in the USART (no external inverter),3.3 V logic,in (FC side),RC receiver (CRSF/ELRS/SBUS),CONFIRMED_IN_SCHEMATIC
+J_RC1,"JST SM04B-GHS-TB (GH 1.25 mm, 4p)",3,RC_TX,RC receiver TX (CRSF/ELRS telemetry),3.3 V logic,out (FC side),RC receiver (CRSF/ELRS/SBUS),CONFIRMED_IN_SCHEMATIC
+J_RC1,"JST SM04B-GHS-TB (GH 1.25 mm, 4p)",4,GND,ground,0 V,power,RC receiver (CRSF/ELRS/SBUS),CONFIRMED_IN_SCHEMATIC
+J_RC1,"JST SM04B-GHS-TB (GH 1.25 mm, 4p)",MP,GND,ground,0 V,power,RC receiver (CRSF/ELRS/SBUS),CONFIRMED_IN_SCHEMATIC
+J_S1,1x3 2.54 mm header,1,GND,ground,0 V,power,Servo 1,PROVISIONAL
+J_S1,1x3 2.54 mm header,2,SERVO_5V,servo supply (external),external servo rail,power,Servo 1,PROVISIONAL
+J_S1,1x3 2.54 mm header,3,S1_C,S1_C,3.3 V logic,,Servo 1,PROVISIONAL
+J_S2,1x3 2.54 mm header,1,GND,ground,0 V,power,Servo 2,PROVISIONAL
+J_S2,1x3 2.54 mm header,2,SERVO_5V,servo supply (external),external servo rail,power,Servo 2,PROVISIONAL
+J_S2,1x3 2.54 mm header,3,S2_C,S2_C,3.3 V logic,,Servo 2,PROVISIONAL
+J_S3,1x3 2.54 mm header,1,GND,ground,0 V,power,Servo 3,PROVISIONAL
+J_S3,1x3 2.54 mm header,2,SERVO_5V,servo supply (external),external servo rail,power,Servo 3,PROVISIONAL
+J_S3,1x3 2.54 mm header,3,S3_C,S3_C,3.3 V logic,,Servo 3,PROVISIONAL
+J_S4,1x3 2.54 mm header,1,GND,ground,0 V,power,Servo 4,PROVISIONAL
+J_S4,1x3 2.54 mm header,2,SERVO_5V,servo supply (external),external servo rail,power,Servo 4,PROVISIONAL
+J_S4,1x3 2.54 mm header,3,S4_C,S4_C,3.3 V logic,,Servo 4,PROVISIONAL
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),1,SD_D2,microSD,3.3 V logic,bidir (FC side),microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),2,SD_D3,microSD,3.3 V logic,bidir (FC side),microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),3,SD_CMD,microSD,3.3 V logic,bidir (FC side),microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),4,+3V3,3.3 V out,3.3 V,power,microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),5,SD_CK_R,SD_CK_R,3.3 V logic,,microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),6,GND,ground,0 V,power,microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),7,SD_D0,microSD,3.3 V logic,bidir (FC side),microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),8,SD_D1,microSD,3.3 V logic,bidir (FC side),microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),9,GND,ground,0 V,power,microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),10,SD_DETECT,microSD card-detect switch to GND (polarity to confirm on hardware),3.3 V logic,in (FC side),microSD card,CONFIRMED_IN_SCHEMATIC
+J_SD1,Hirose DM3AT-SF-PEJM5 (microSD push-push),SH,GND,ground,0 V,power,microSD card,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),1,+3V3,3.3 V out,3.3 V,power,ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),2,SWDIO,Debug,3.3 V logic,bidir (FC side),ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),3,GND,ground,0 V,power,ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),4,SWCLK,Debug,3.3 V logic,in (FC side),ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),5,GND,ground,0 V,power,ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),6,SWO,Trace SWO,3.3 V logic,out (FC side),ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),7,NC,not connected,,,ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),8,NC,not connected,,,ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),9,GND,ground,0 V,power,ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_SWD1,2x5 1.27 mm SMD header (Samtec FTSH-105-01-L-DV-K),10,NRST,Reset (also SWD pin 10),3.3 V logic,bidir (FC side),ARM Cortex 10-pin debug cable,CONFIRMED_IN_SCHEMATIC
+J_TELEM1,"JST SM06B-GHS-TB (GH, 6p)",1,+5V,5 V supply out,"5 V (5V_MAIN, present on battery only)",power,Telemetry radio / Wi-Fi bridge,CONFIRMED_IN_SCHEMATIC
+J_TELEM1,"JST SM06B-GHS-TB (GH, 6p)",2,TEL1_TX,TELEM1 TX,3.3 V logic,out (FC side),Telemetry radio / Wi-Fi bridge,CONFIRMED_IN_SCHEMATIC
+J_TELEM1,"JST SM06B-GHS-TB (GH, 6p)",3,TEL1_RX,TELEM1 RX,3.3 V logic,in (FC side),Telemetry radio / Wi-Fi bridge,CONFIRMED_IN_SCHEMATIC
+J_TELEM1,"JST SM06B-GHS-TB (GH, 6p)",4,TEL1_CTS,TELEM1 CTS,3.3 V logic,in (FC side),Telemetry radio / Wi-Fi bridge,CONFIRMED_IN_SCHEMATIC
+J_TELEM1,"JST SM06B-GHS-TB (GH, 6p)",5,TEL1_RTS,TELEM1 RTS,3.3 V logic,out (FC side),Telemetry radio / Wi-Fi bridge,CONFIRMED_IN_SCHEMATIC
+J_TELEM1,"JST SM06B-GHS-TB (GH, 6p)",6,GND,ground,0 V,power,Telemetry radio / Wi-Fi bridge,CONFIRMED_IN_SCHEMATIC
+J_TELEM1,"JST SM06B-GHS-TB (GH, 6p)",MP,GND,ground,0 V,power,Telemetry radio / Wi-Fi bridge,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),A1,GND,ground,0 V,power,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),A4,VBUS,USB 5 V in,5 V USB,power,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),A5,CC1,CC1,3.3 V logic,,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),A6,USB_DP,USB D+,3.3 V logic,bidir (FC side),USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),A7,USB_DM,USB D-,3.3 V logic,bidir (FC side),USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),A8,NC,not connected,,,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),A9,VBUS,USB 5 V in,5 V USB,power,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),B1,GND,ground,0 V,power,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),B4,VBUS,USB 5 V in,5 V USB,power,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),B5,CC2,CC2,3.3 V logic,,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),B6,USB_DP,USB D+,3.3 V logic,bidir (FC side),USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),B7,USB_DM,USB D-,3.3 V logic,bidir (FC side),USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),B8,NC,not connected,,,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),B9,VBUS,USB 5 V in,5 V USB,power,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),SH,GND,ground,0 V,power,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),A12,GND,ground,0 V,power,USB-C cable,CONFIRMED_IN_SCHEMATIC
+J_USB1,GCT USB4105-GF-A (USB-C 2.0 receptacle),B12,GND,ground,0 V,power,USB-C cable,CONFIRMED_IN_SCHEMATIC

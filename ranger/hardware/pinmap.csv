@@ -1,0 +1,70 @@
+pin,hwdef_label,hwdef_type,af,net,status,source
+PA0,UART4_TX,UART4,8,J_GPS1 pin 2 (GPS TX),as-designed,brief s2 UARTs
+PA1,UART4_RX,UART4,8,J_GPS1 pin 3 (GPS RX),as-designed; 5V tolerance unconfirmed,brief s2 UARTs
+PA3,TIM2_CH4,TIM2,1,Buzzer (2N7002 gate),provisional: buzzer type unknown,brief s2 Outputs
+PA4,ICM42688_CS,CS,,ICM-42688-P chip select,as-designed,brief s2 Sensors
+PA5,SPI1_SCK,SPI1,5,ICM-42688-P SCK,as-designed,brief s2 Sensors
+PA6,SPI1_MISO,SPI1,5,ICM-42688-P MISO,as-designed,brief s2 Sensors
+PA7,SPI1_MOSI,SPI1,5,ICM-42688-P MOSI,as-designed,brief s2 Sensors
+PA8,ICM42688_CLKIN,INPUT,,ICM-42688-P pin 9 via 1k (Hi-Z),as-designed,brief s2 Sensors
+PA9,VBUS,INPUT,,USB VBUS sense (10k/20k divider),as-designed,brief s2 Other buses
+PA10,SD_CARD_DETECT,INPUT,,microSD card detect,provisional: polarity unconfirmed,brief s2 Other buses
+PA11,OTG_FS_DM,OTG1,10,USB D-,as-designed,brief s2 Other buses
+PA12,OTG_FS_DP,OTG1,10,USB D+,as-designed,brief s2 Other buses
+PA13,JTMS-SWDIO,SWD,0,SWDIO,as-designed,brief s2 Other buses
+PA14,JTCK-SWCLK,SWD,0,SWCLK,as-designed,brief s2 Other buses
+PB2,LED_RED,OUTPUT,,Red LED (active low),as-designed,brief s2 Outputs
+PB5,COMP_GPIO,INPUT,,J_COMP1 pin 4 spare GPIO,as-designed,brief s2 UARTs
+PB6,USART1_TX,USART1,7,J_RC1 pin 3 (RC TX),as-designed,brief s2 UARTs
+PB7,USART1_RX,USART1,7,J_RC1 pin 2 (RC RX),as-designed,brief s2 UARTs
+PB8,I2C1_SCL,I2C1,4,J_GPS1 pin 4 (SCL),as-designed,brief s2 Other buses
+PB9,I2C1_SDA,I2C1,4,J_GPS1 pin 5 (SDA),as-designed,brief s2 Other buses
+PB10,I2C2_SCL,I2C2,4,BMP390 SCL,as-designed,brief s2 Sensors
+PB11,I2C2_SDA,I2C2,4,BMP390 SDA,as-designed,brief s2 Sensors
+PB12,VDD_3V3_SENSORS_EN,OUTPUT,,3V3_SENS enable (high = on),as-designed,brief s2 Sensors
+PB13,SPI2_SCK,SPI2,5,BMI088 SCK,as-designed; optional fit,brief s2 Sensors
+PB14,SPI2_MISO,SPI2,5,BMI088 MISO,as-designed; optional fit,brief s2 Sensors
+PB15,SPI2_MOSI,SPI2,5,BMI088 MOSI,as-designed; optional fit,brief s2 Sensors
+PC0,BATT_VOLTAGE_SENS,ADC1,,Battery voltage (ADC1_INP10),provisional: x11 scale unverified,brief s5
+PC1,BATT_CURRENT_SENS,ADC1,,ESC current output (ADC1_INP11),provisional: scale unknown,brief s5
+PC4,ICM42688_INT1,INPUT,,ICM-42688-P INT1,as-designed,brief s2 Sensors
+PC5,VDD_5V_SENS,ADC1,,5V rail (ADC1_INP8) x2,as-designed,brief s5
+PC6,USART6_TX,USART6,7,J_LIDAR1 pin 2,as-designed,brief s2 UARTs
+PC7,USART6_RX,USART6,7,J_LIDAR1 pin 3,as-designed,brief s2 UARTs
+PC8,SDMMC1_D0,SDMMC1,12,microSD D0,as-designed,brief s2 Other buses
+PC9,SDMMC1_D1,SDMMC1,12,microSD D1,as-designed,brief s2 Other buses
+PC10,SDMMC1_D2,SDMMC1,12,microSD D2,as-designed,brief s2 Other buses
+PC11,SDMMC1_D3,SDMMC1,12,microSD D3,as-designed,brief s2 Other buses
+PC12,SDMMC1_CK,SDMMC1,12,microSD CK,as-designed,brief s2 Other buses
+PC13,GPIO_CAN1_SILENT,OUTPUT,,SN65HVD230 RS (low = enabled),as-designed,brief s2 Other buses
+PD0,CAN1_RX,CAN1,9,FDCAN1 RX,as-designed,brief s2 Other buses
+PD1,CAN1_TX,CAN1,9,FDCAN1 TX,as-designed,brief s2 Other buses
+PD2,SDMMC1_CMD,SDMMC1,12,microSD CMD,as-designed,brief s2 Other buses
+PD3,USART2_CTS,USART2,7,J_TELEM1 pin 4,as-designed,brief s2 UARTs
+PD4,USART2_RTS,USART2,7,J_TELEM1 pin 5,as-designed,brief s2 UARTs
+PD5,USART2_TX,USART2,7,J_TELEM1 pin 2,as-designed,brief s2 UARTs
+PD6,USART2_RX,USART2,7,J_TELEM1 pin 3,as-designed,brief s2 UARTs
+PD7,LED_GREEN,OUTPUT,,Green LED (active low),as-designed,brief s2 Outputs
+PD8,USART3_TX,USART3,7,J_COMP1 pin 2,as-designed,brief s2 UARTs
+PD9,USART3_RX,USART3,7,J_COMP1 pin 3,as-designed,brief s2 UARTs
+PD10,BMI088_A_CS,CS,,BMI088 accel chip select,as-designed; optional fit,brief s2 Sensors
+PD11,BMI088_G_CS,CS,,BMI088 gyro chip select,as-designed; optional fit,brief s2 Sensors
+PD12,TIM4_CH1,TIM4,2,Servo S1 signal,as-designed,brief s2 Outputs
+PD13,TIM4_CH2,TIM4,2,Servo S2 signal,as-designed,brief s2 Outputs
+PD14,TIM4_CH3,TIM4,2,Servo S3 signal,as-designed,brief s2 Outputs
+PD15,TIM4_CH4,TIM4,2,Servo S4 signal,as-designed,brief s2 Outputs
+PE0,UART8_RX,UART8,8,J_ESC1 pin 4 (ESC telemetry),provisional: ESC connector order,brief s2 UARTs
+PE2,SPI4_SCK,SPI4,5,Flow connector SCK,provisional: connector order unverified,brief s2 Other buses
+PE3,FLOW_INT,INPUT,,Flow connector INT,provisional: connector order unverified,brief s2 Other buses
+PE4,FLOW_CS,CS,,Flow connector CS,provisional: connector order unverified,brief s2 Other buses
+PE5,SPI4_MISO,SPI4,5,Flow connector MISO,provisional: connector order unverified,brief s2 Other buses
+PE6,SPI4_MOSI,SPI4,5,Flow connector MOSI,provisional: connector order unverified,brief s2 Other buses
+PE7,UART7_RX,UART7,7,Test pad (not 5V tolerant),as-designed,brief s2 UARTs
+PE8,UART7_TX,UART7,7,Test pad,as-designed,brief s2 UARTs
+PE9,TIM1_CH1,TIM1,1,Motor M1 (J_ESC1 pin 5),provisional: motor order,brief s4
+PE10,BMI088_A_INT,INPUT,,BMI088 accel INT,as-designed; optional fit,brief s2 Sensors
+PE11,TIM1_CH2,TIM1,1,Motor M2 (J_ESC1 pin 6),provisional: motor order,brief s4
+PE12,BMI088_G_INT,INPUT,,BMI088 gyro INT,as-designed; optional fit,brief s2 Sensors
+PE13,TIM1_CH3,TIM1,1,Motor M3 (J_ESC1 pin 7),provisional: motor order,brief s4
+PE14,TIM1_CH4,TIM1,1,Motor M4 (J_ESC1 pin 8),provisional: motor order,brief s4
+PE15,LED_BLUE,OUTPUT,,Blue LED (active low),as-designed,brief s2 Outputs
