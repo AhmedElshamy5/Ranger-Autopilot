@@ -66,6 +66,17 @@ class Vehicle:
                 return m
         return None
 
+    def sleep(self, seconds):
+        """wait while keeping the GCS heartbeat alive.
+
+        Never use time.sleep() in a test: at SITL speedup a silent second
+        of wall time is several simulated seconds, enough to trip the GCS
+        failsafe that the Ranger defaults enable.
+        """
+        deadline = time.time() + seconds
+        while time.time() < deadline:
+            self.recv("HEARTBEAT", timeout=0.2)
+
     def wait_until(self, fn, timeout=60):
         deadline = time.time() + timeout
         while time.time() < deadline:

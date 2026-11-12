@@ -13,6 +13,11 @@ from pymavlink import mavutil
 M = mavutil.mavlink
 
 
+def conftest_speedup():
+    import os
+    return os.environ.get("RANGER_SITL_SPEEDUP", "5")
+
+
 def test_heartbeat(vehicle):
     hb = vehicle.first_heartbeat
     assert hb.autopilot == M.MAV_AUTOPILOT_ARDUPILOTMEGA
@@ -33,13 +38,13 @@ def test_firmware_version_is_reported(vehicle):
 
 
 def test_parameter_read_write_roundtrip(vehicle):
-    original = vehicle.get_param("RTL_ALT")
+    original = vehicle.get_param("RTL_ALT_M")
     try:
-        vehicle.set_param("RTL_ALT", original + 250)
-        assert vehicle.get_param("RTL_ALT") == original + 250
+        vehicle.set_param("RTL_ALT_M", original + 7)
+        assert vehicle.get_param("RTL_ALT_M") == original + 7
     finally:
-        vehicle.set_param("RTL_ALT", original)
-    assert vehicle.get_param("RTL_ALT") == original
+        vehicle.set_param("RTL_ALT_M", original)
+    assert vehicle.get_param("RTL_ALT_M") == original
 
 
 def test_ranger_failsafe_defaults_are_loaded(vehicle):
@@ -70,13 +75,29 @@ def test_prearm_check_blocks_arming(vehicle):
     assert vehicle.set_mode("GUIDED")
     vehicle.set_param("BATT_ARM_VOLT", 99)
     try:
-        time.sleep(1)
+        vehicle.sleep(1)
         result = vehicle.arm()
         assert result is not None, "no COMMAND_ACK for arm"
         assert result != M.MAV_RESULT_ACCEPTED
         assert not vehicle.armed()
     finally:
         vehicle.set_param("BATT_ARM_VOLT", 0)
+
+
+def test_gcs_failsafe_blocks_arming_when_heartbeats_stop(vehicle):
+    """FS_GCS_ENABLE=1 from the Ranger defaults must act on a lost GCS"""
+    timeout_s = vehicle.get_param("FS_GCS_TIMEOUT")
+    speedup = float(conftest_speedup())
+    vehicle.statustexts.clear()
+    # go silent for three failsafe timeouts of simulated time
+    time.sleep(3 * timeout_s / speedup)
+    result = vehicle.arm()  # sent before the next GCS heartbeat
+    assert result is not None, "no COMMAND_ACK for arm"
+    assert result != M.MAV_RESULT_ACCEPTED
+    assert not vehicle.armed()
+    vehicle.sleep(2)
+    assert any("GCS" in t and "ailsafe" in t for t in vehicle.statustexts), (
+        vehicle.statustexts)
 
 
 def test_arms_in_guided_when_checks_pass(vehicle):
@@ -87,7 +108,7 @@ def test_arms_in_guided_when_checks_pass(vehicle):
         result = vehicle.arm()
         if result == M.MAV_RESULT_ACCEPTED:
             break
-        time.sleep(2)
+        vehicle.sleep(2)
     assert result == M.MAV_RESULT_ACCEPTED, (
         "never armed; last messages: %s" % vehicle.statustexts[-5:])
     assert vehicle.wait_until(vehicle.armed, timeout=10)
@@ -149,4 +170,18 @@ def test_flight_log_was_written(vehicle):
     assert entry is not None, "no LOG_ENTRY reply"
     assert entry.num_logs >= 1
     assert entry.size > 0
-    assert list((vehicle.workdir / "logs").glob("*.BIN")), "no .BIN on disk"
+    logs = sorted((vehicle.workdir / "logs").glob("*.BIN"))
+    assert logs, "no .BIN on disk"
+
+    # a log file is opened by any arm attempt, so check it really holds
+    # the flight: the guided leg and the failsafe landing
+    modes = set()
+    log = mavutil.mavlink_connection(str(logs[-1]))
+    while True:
+        m = log.recv_match(type="MODE")
+        if m is None:
+            break
+        modes.add(m.Mode)
+    mapping = vehicle.conn.mode_mapping()
+    assert mapping["GUIDED"] in modes, modes
+    assert mapping["LAND"] in modes, modes
