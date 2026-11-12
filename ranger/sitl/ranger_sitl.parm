@@ -1,0 +1,6 @@
+# SITL-only overrides for the Ranger test suite (Ranger-developed file).
+# Not loaded on the real board.
+#
+# The simulated vehicle is a generic quad from the stock copter.parm.
+# It is NOT a model of the Ranger airframe, whose frame, mass and
+# motor layout are not defined yet.
