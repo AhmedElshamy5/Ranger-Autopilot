@@ -209,10 +209,27 @@ PC5 VDD_5V_SENS ADC1 SCALE(2)
 define HAL_BATT_MONITOR_DEFAULT 3
 define HAL_BATT_VOLT_PIN 10
 define HAL_BATT_VOLT_SCALE 11.0
-# PC1 carries the ESC's analog current output. There is no current
-# sensor on the FC and the scale is unknown until an ESC is chosen, so
-# no current scale is defined and current sensing is off by default.
-define HAL_BATT_CURR_PIN 11
+# PC1 carries the ESC's analog current output (ADC channel 11). There is
+# no current sensor on the FC and the scale is unknown until an ESC is
+# chosen. ArduPilot refuses to build a default current pin without a
+# current scale, and inventing a scale is not acceptable, so neither is
+# defined: current sensing is off. To use it later set BATT_MONITOR=4,
+# BATT_CURR_PIN=11 and BATT_AMP_PERVLT from the ESC's datasheet.
+
+# -------------------------------------------------------- unused pins
+# Not connected on the A0.1 schematic. The generator would leave them as
+# floating inputs; the handoff asks for pulled inputs instead.
+# (PC2/PC3 are the PC2_C/PC3_C pads on this package.)
+PA2 UNUSED_PA2 INPUT PULLDOWN
+PA15 UNUSED_PA15 INPUT PULLDOWN
+PB0 UNUSED_PB0 INPUT PULLDOWN
+PB1 UNUSED_PB1 INPUT PULLDOWN
+PB4 UNUSED_PB4 INPUT PULLDOWN
+PC2 UNUSED_PC2 INPUT PULLDOWN
+PC3 UNUSED_PC3 INPUT PULLDOWN
+PC14 UNUSED_PC14 INPUT PULLDOWN
+PC15 UNUSED_PC15 INPUT PULLDOWN
+PE1 UNUSED_PE1 INPUT PULLDOWN
 
 # ------------------------------------------------------------ storage
 # No FRAM: parameters live in the last two flash sectors.

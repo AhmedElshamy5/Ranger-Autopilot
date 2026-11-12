@@ -68,3 +68,13 @@ PE12,BMI088_G_INT,INPUT,,BMI088 gyro INT,as-designed; optional fit,brief s2 Sens
 PE13,TIM1_CH3,TIM1,1,Motor M3 (J_ESC1 pin 7),provisional: motor order,brief s4
 PE14,TIM1_CH4,TIM1,1,Motor M4 (J_ESC1 pin 8),provisional: motor order,brief s4
 PE15,LED_BLUE,OUTPUT,,Blue LED (active low),as-designed,brief s2 Outputs
+PA2,UNUSED_PA2,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PA15,UNUSED_PA15,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PB0,UNUSED_PB0,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PB1,UNUSED_PB1,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PB4,UNUSED_PB4,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PC2,UNUSED_PC2,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PC3,UNUSED_PC3,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PC14,UNUSED_PC14,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PC15,UNUSED_PC15,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv
+PE1,UNUSED_PE1,INPUT,,not connected,unconnected: pulled down,handoff MCU_PINOUT.csv

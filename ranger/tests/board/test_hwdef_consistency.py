@@ -105,14 +105,21 @@ def test_labels_and_types_match_the_pinmap(hwdef, pinmap):
         assert ptype == row["hwdef_type"], pin
 
 
-def test_no_unconnected_pin_is_used(hwdef):
+def test_unconnected_pins_are_pulled_inputs_only(hwdef):
     pins, _ = hwdef
-    assert not (set(pins) & UNCONNECTED)
+    for pin in UNCONNECTED:
+        label, ptype, extra = pins[pin]
+        assert label == "UNUSED_" + pin
+        assert ptype == "INPUT"
+        assert "PULLDOWN" in extra
+    for pin, (label, _, _) in pins.items():
+        assert label.startswith("UNUSED_") == (pin in UNCONNECTED), pin
 
 
 def test_all_pins_exist_on_lqfp100(hwdef):
     pins, _ = hwdef
     for pin in pins:
+        assert pin in load_handoff_pins() or pin + "_C" in load_handoff_pins(), pin
         assert pin[1] in LQFP100_PORTS, "%s is not on the LQFP-100" % pin
 
 
@@ -139,13 +146,22 @@ def load_handoff_pins():
         return {r["GPIO"]: r for r in csv.DictReader(f) if r["GPIO"]}
 
 
+def handoff_row(pin):
+    rows = load_handoff_pins()
+    return rows.get(pin) or rows[pin + "_C"]
+
+
 def test_pinmap_agrees_with_handoff_mcu_pinout(pinmap):
     """every pin the firmware uses must match the netlist-generated CSV"""
     handoff = load_handoff_pins()
     rename = {"FDCAN1_RX": "CAN1_RX", "FDCAN1_TX": "CAN1_TX"}
     for pin, row in pinmap.items():
-        assert pin in handoff, "%s not in MCU_PINOUT.csv" % pin
-        h = handoff[pin]
+        assert pin in handoff or pin + "_C" in handoff, (
+            "%s not in MCU_PINOUT.csv" % pin)
+        h = handoff_row(pin)
+        if pin in UNCONNECTED:
+            assert not h["Net"], "%s is connected in the handoff" % pin
+            continue
         assert h["Net"], "%s has no net in the handoff" % pin
         assert "UNUSED" not in h["Firmware purpose"], pin
         if row["af"] and row["hwdef_type"] != "SWD":
@@ -166,9 +182,9 @@ def test_handoff_has_no_connected_pin_missing_from_hwdef(hwdef):
         if h["Net"] and key not in ignore:
             assert key in pins, "%s (%s) is connected but not in hwdef.dat" % (
                 pin, h["Net"])
+            assert not pins[key][0].startswith("UNUSED_"), pin
         if not h["Net"]:
             assert key in UNCONNECTED, pin
-            assert key not in pins, pin
 
 
 def test_adc_channels_and_scales_match_handoff(hwdef):
@@ -330,7 +346,8 @@ def test_battery_monitor_is_voltage_only(hwdef):
     defs = defines(d)
     assert defs["HAL_BATT_MONITOR_DEFAULT"] == "3"
     assert defs["HAL_BATT_VOLT_PIN"] == "10"
-    assert defs["HAL_BATT_CURR_PIN"] == "11"
+    assert "HAL_BATT_CURR_PIN" not in defs, (
+        "no default current pin: there is no known current scale")
     assert float(defs["HAL_BATT_VOLT_SCALE"]) == 11.0
     assert "HAL_BATT_CURR_SCALE" not in defs, (
         "no current sensor on the FC: do not invent a current scale")
