@@ -51,7 +51,7 @@ Tools/environment_install/install-prereqs-ubuntu.sh -y
 Then:
 
 ```
-ranger/scripts/build_fw.sh      # baseline board, bootloader, RangerH743 firmware
+ranger/scripts/build_fw.sh      # baseline board, then RangerH743 firmware
 ranger/scripts/build_sitl.sh    # simulator binary
 ranger/scripts/run_tests.sh     # all test tiers
 ```

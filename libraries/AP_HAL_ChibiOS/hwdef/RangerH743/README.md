@@ -152,10 +152,13 @@ ranger/scripts/build_fw.sh
 or by hand:
 
 ```
-Tools/scripts/build_bootloaders.py RangerH743
 ./waf configure --board RangerH743
 ./waf copter
 ```
+
+The bootloader binary is committed in `Tools/bootloaders/`. Rebuild it
+after changing `hwdef-bl.dat` with
+`ranger/scripts/build_fw.sh --rebuild-bootloader` and commit the result.
 
 Outputs are in `build/RangerH743/bin/`. `arducopter_with_bl.hex`
 contains bootloader and firmware in one image.

@@ -47,7 +47,7 @@ jobs:
         run: |
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
           PATH="/opt/gcc-arm-none-eabi-10/bin:/github/home/.local/bin:$PATH"
-          ranger/scripts/build_fw.sh
+          ranger/scripts/build_fw.sh --rebuild-bootloader
       - name: check build outputs
         shell: bash
         run: |

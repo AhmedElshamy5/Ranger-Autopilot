@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 # Build the RangerH743 bootloader and ArduCopter firmware.
-# Ranger-developed file. Usage: ranger/scripts/build_fw.sh [--skip-baseline]
+# Ranger-developed file.
+#
+# Usage: ranger/scripts/build_fw.sh [--skip-baseline] [--rebuild-bootloader]
+#
+#   --skip-baseline       do not build the upstream reference board first
+#   --rebuild-bootloader  recompile Tools/bootloaders/RangerH743_bl.bin.
+#                         The bootloader embeds the git hash, so its bytes
+#                         change with every commit. By default the committed
+#                         binary is used and the working tree stays clean;
+#                         CI passes this flag to prove it still compiles.
 #
 # Output: artifacts/RangerH743/ (firmware, bootloader, generated hwdef.h,
 # DMA allocation, build log, checksums).
@@ -13,7 +22,14 @@ BOARD=RangerH743
 BASELINE=MatekH743
 OUT="$ROOT/artifacts/$BOARD"
 SKIP_BASELINE=0
-[ "${1:-}" = "--skip-baseline" ] && SKIP_BASELINE=1
+REBUILD_BL=0
+for arg in "$@"; do
+    case "$arg" in
+        --skip-baseline) SKIP_BASELINE=1 ;;
+        --rebuild-bootloader) REBUILD_BL=1 ;;
+        *) echo "unknown option: $arg" >&2; exit 2 ;;
+    esac
+done
 
 mkdir -p "$OUT"
 LOG="$OUT/build.log"
@@ -38,8 +54,12 @@ if [ "$SKIP_BASELINE" = 0 ]; then
     run ./waf copter
 fi
 
-# bootloader first: the main build embeds Tools/bootloaders/<board>_bl.bin
-run Tools/scripts/build_bootloaders.py "$BOARD"
+# the main build embeds Tools/bootloaders/<board>_bl.bin
+if [ "$REBUILD_BL" = 1 ] || [ ! -f "Tools/bootloaders/${BOARD}_bl.bin" ]; then
+    run Tools/scripts/build_bootloaders.py "$BOARD"
+else
+    echo "using committed Tools/bootloaders/${BOARD}_bl.bin" | tee -a "$LOG"
+fi
 
 run ./waf configure --board "$BOARD"
 run ./waf copter
