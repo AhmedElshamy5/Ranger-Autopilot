@@ -1,0 +1,16 @@
+Peripheral,MCU pins (AF),Nets,Connected device,Chip select,Interrupt / control pins,Logic voltage,Constraints
+SPI1,"PA5 SCK, PA6 MISO, PA7 MOSI (AF5)",IMU1_*,U5 ICM-42688-P,PA4,PC4 = INT1 (EXTI4). PA8 -> 1k -> pin 9,3.3 V (3V3_SENS),<= 24 MHz (DS-000347). Dedicated bus,CONFIRMED_IN_SCHEMATIC
+SPI2,"PB13 SCK, PB14 MISO, PB15 MOSI (AF5)",IMU2_*,U6 BMI088 (optional fit),"PD10 accel, PD11 gyro",PE10 = accel INT1 (EXTI10). PE12 = gyro INT3 (EXTI12),3.3 V (3V3_SENS),<= 10 MHz. Accel needs one CSB1 rising edge after power-up to enter SPI mode,CONFIRMED_IN_SCHEMATIC
+SPI4,"PE2 SCK, PE5 MISO, PE6 MOSI (AF5)",EXT_SPI_*,J_FLOW1 optical-flow module,PE4,PE3 (EXTI3),3.3 V,External cable: keep <= 2 MHz. 33R on SCK and MOSI,CONFIRMED_IN_SCHEMATIC
+I2C2,"PB10 SCL, PB11 SDA (AF4)",I2C_INT_*,U7 BMP390 at 0x76,-,none (BMP390 INT is not connected),"3.3 V (3V3_SENS), 2.2k pull-ups",Internal bus only,CONFIRMED_IN_SCHEMATIC
+I2C1,"PB8 SCL, PB9 SDA (AF4)",I2C_EXT_*,J_GPS1 pins 4 and 5,-,-,"3.3 V, 2.2k pull-ups",External modules may add their own pull-ups,CONFIRMED_IN_SCHEMATIC
+FDCAN1,"PD0 RX, PD1 TX (AF9)","CAN_RX, CAN_TX",U8 SN65HVD230 -> J_CAN1,-,PC13 = Rs (low = active),3.3 V,120R termination only when solder jumper JP1 is bridged,CONFIRMED_IN_SCHEMATIC
+USB_OTG_FS,"PA11 DM, PA12 DP (AF10)","USB_DM, USB_DP",J_USB1 through U9 USBLC6-2SC6,-,PA9 = VBUS sense as plain GPIO (divided),USB,"Device only, full speed",CONFIRMED_IN_SCHEMATIC
+SDMMC1,"PC8-PC11 D0-D3, PC12 CK, PD2 CMD (AF12)",SD_*,J_SD1 microSD,-,PA10 = card detect (polled),3.3 V,"4-bit, 3.3 V signalling only, pull-ups internal",CONFIRMED_IN_SCHEMATIC
+ADC1,"PC0 INP10, PC1 INP11, PC5 INP8","VBAT_SENSE, CURR_SENSE, 5V_SENSE",dividers and ESC current output,-,-,"0-3.3 V, VREF+ = VDDA",See POWER_AND_ADC.md,CONFIRMED_IN_SCHEMATIC
+TIM1,"PE9, PE11, PE13, PE14 = CH1-4 (AF1)",M1-M4,J_ESC1,-,-,3.3 V,One timer: same protocol and rate on all four outputs,CONFIRMED_IN_SCHEMATIC
+TIM4,PD12-PD15 = CH1-4 (AF2),S1-S4,J_S1-J_S4,-,-,3.3 V,Servo PWM,CONFIRMED_IN_SCHEMATIC
+TIM2,PA3 = CH4 (AF1),BUZZER,Q2 -> J_BUZ1,-,-,3.3 V,PA3 also offers TIM5_CH4 (AF2) and TIM15_CH2 (AF4),CONFIRMED_IN_SCHEMATIC
+EXTI,"PC4 (line 4), PE3 (3), PE10 (10), PE12 (12)",interrupt inputs,"IMU1, flow, IMU2 accel, IMU2 gyro",-,-,3.3 V,Line numbers are unique,CONFIRMED_IN_SCHEMATIC
+SWD,"PA13 SWDIO, PA14 SWCLK, PB3 SWO","SWDIO, SWCLK, SWO",J_SWD1,-,NRST on pin 10,3.3 V,PA15 and PB4 (JTAG) are unused,CONFIRMED_IN_SCHEMATIC
+UARTs,see UART_PORT_MAP.csv,,,,,,,CONFIRMED_IN_SCHEMATIC

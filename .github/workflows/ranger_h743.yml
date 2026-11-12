@@ -1,0 +1,90 @@
+name: ranger h743
+
+# Ranger-developed workflow. Builds and tests the RangerH743 board port.
+# None of these jobs touches hardware: a green run means the board
+# definition is consistent and the firmware compiles and behaves in
+# simulation, not that the Ranger FC works.
+
+on:
+  push:
+    branches: ['ranger/**']
+  pull_request:
+    branches: ['ranger/**', 'main']
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  board-checks:
+    name: board definition consistency
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: install pytest
+        run: python3 -m pip install --user pytest
+      - name: hwdef vs pin map
+        run: ranger/scripts/run_tests.sh board
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: board-check-results
+          path: artifacts/test-results
+
+  firmware:
+    name: RangerH743 firmware
+    needs: board-checks
+    runs-on: ubuntu-22.04
+    # same pinned image and compiler as upstream's own ChibiOS CI
+    container: ardupilot/ardupilot-dev-chibios:v0.1.3
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: 'recursive'
+      - name: build baseline, bootloader and firmware
+        shell: bash
+        run: |
+          git config --global --add safe.directory ${GITHUB_WORKSPACE}
+          PATH="/opt/gcc-arm-none-eabi-10/bin:/github/home/.local/bin:$PATH"
+          # bin2hex.py needs intelhex to write the bootloader .hex
+          python3 -m pip install --user intelhex
+          ranger/scripts/build_fw.sh --rebuild-bootloader
+      - name: check build outputs
+        shell: bash
+        run: |
+          PATH="/github/home/.local/bin:$PATH"
+          python3 -m pip install --user pytest
+          ranger/scripts/run_tests.sh outputs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: RangerH743-firmware
+          path: artifacts
+
+  sitl:
+    name: SITL tests
+    needs: board-checks
+    runs-on: ubuntu-22.04
+    container: ardupilot/ardupilot-dev-base:v0.1.3
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: 'recursive'
+      - name: build SITL
+        shell: bash
+        run: |
+          git config --global --add safe.directory ${GITHUB_WORKSPACE}
+          PATH="/github/home/.local/bin:$PATH"
+          ranger/scripts/build_sitl.sh
+      - name: run SITL tests
+        shell: bash
+        run: |
+          PATH="/github/home/.local/bin:$PATH"
+          python3 -m pip install --user pytest pymavlink
+          ranger/scripts/run_tests.sh sitl
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sitl-results
+          path: artifacts

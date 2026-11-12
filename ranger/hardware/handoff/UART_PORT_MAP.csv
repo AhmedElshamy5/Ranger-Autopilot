@@ -1,0 +1,8 @@
+UART instance,TX MCU pin,RX MCU pin,AF,Connector,Connector pin: FC TX (out),Connector pin: FC RX (in),GND pin,5 V pin,Intended purpose,Logic voltage,Inversion / buffering,Known limitations,"Suggested ArduPilot serial name (recommendation, not approved)",Verification status
+USART1,PB6,PB7,AF7,J_RC1,3,2,4,1,RC input (CRSF/ELRS; SBUS with RX inversion),3.3 V,none (direct to the MCU pin),PB7 is 5 V tolerant (FT). RX idle pull-up must be enabled in firmware,SERIAL5,CONFIRMED_IN_SCHEMATIC
+USART2,PD5,PD6,AF7,J_TELEM1,2,3,6,1,"MAVLink telemetry 1; CTS = PD3, RTS = PD4",3.3 V,none (direct to the MCU pin),PD6 FT. RX idle pull-up must be enabled in firmware,SERIAL1,CONFIRMED_IN_SCHEMATIC
+USART3,PD8,PD9,AF7,J_COMP1,2,3,6,1,Companion computer (MAVLink),3.3 V,none (direct to the MCU pin),PD9 FT. RX idle pull-up must be enabled in firmware,SERIAL2,CONFIRMED_IN_SCHEMATIC
+UART4,PA0,PA1,AF8,J_GPS1,2,3,6,1,GPS,3.3 V,none (direct to the MCU pin),PA1 5 V tolerance not confirmed: 3.3 V modules only. RX idle pull-up must be enabled in firmware,SERIAL3,CONFIRMED_IN_SCHEMATIC
+USART6,PC6,PC7,AF7,J_LIDAR1,2,3,4,1,"Rangefinder (TFmini-S, 115200)",3.3 V,none (direct to the MCU pin),PC7 FT. RX idle pull-up must be enabled in firmware,SERIAL4,CONFIRMED_IN_SCHEMATIC
+UART7,PE8,PE7,AF7,TP1/TP2,TP1,TP2,-,-,"Spare / debug console on test pads, no connector",3.3 V,none (direct to the MCU pin),PE7 is NOT 5 V tolerant. RX idle pull-up must be enabled in firmware,SERIAL6,CONFIRMED_IN_SCHEMATIC
+UART8,none (PE1 not connected),PE0,AF8,J_ESC1,-,4,2,none (pin 1 is VBAT),"ESC telemetry, receive only",3.3 V,none (direct to the MCU pin),PE0 FT. RX idle pull-up must be enabled in firmware,SERIAL7,CONFIRMED_IN_SCHEMATIC

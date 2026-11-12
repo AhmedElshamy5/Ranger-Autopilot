@@ -1,0 +1,282 @@
+# hw definition file for processing by chibios_hwdef.py
+# Ranger FC A0.1 (Ranger UAV) - STM32H743VIT6, LQFP-100
+#
+# RANGER-DEVELOPED FILE (GPLv3, same licence as ArduPilot).
+#
+# STATUS: AS-DESIGNED. The PCB has not been manufactured, powered or
+# tested. Every pin below comes from the Ranger FC A0.1 hardware handoff
+# (netlist export dated 2026-11-11) and is cross-checked against its
+# MCU_PINOUT.csv by ranger/tests/board. A snapshot of the handoff is in
+# ranger/hardware/handoff/. See ranger/docs/OPEN_ISSUES.md.
+#
+# Lines tagged PROVISIONAL depend on a hardware decision that is still
+# open. Do not treat them as final.
+
+# MCU class and specific type
+MCU STM32H7xx STM32H743xx
+
+# Ranger-local board ID, see Tools/AP_Bootloader/board_types.txt.
+# NOT allocated by ArduPilot upstream.
+APJ_BOARD_ID AP_HW_RANGERH743
+
+# 8 MHz HSE crystal on PH0/PH1 (crystal part not yet selected).
+# There is no 32.768 kHz crystal; the ArduPilot H7 clock config does not
+# enable LSE and does not clock the RTC, so nothing else is needed.
+OSCILLATOR_HZ 8000000
+
+FLASH_SIZE_KB 2048
+
+# bootloader takes the first 128k sector
+FLASH_RESERVE_START_KB 128
+
+# ChibiOS system timer: the H7 default is TIM5 (32 bit). TIM5 has no
+# pins in use on this board, so the default is kept. TIM2 is the buzzer.
+
+# ---------------------------------------------------------------- SWD
+PA13 JTMS-SWDIO SWD
+PA14 JTCK-SWCLK SWD
+
+# ---------------------------------------------------------------- USB
+# OTG_FS, device only. VBUS is sensed on PA9 as a plain GPIO through a
+# 10k/20k divider (not the OTG VBUS alternate function).
+PA11 OTG_FS_DM OTG1
+PA12 OTG_FS_DP OTG1
+PA9 VBUS INPUT
+
+# ------------------------------------------------- sensor power rail
+# 3V3_SENS enable. 100k external pull-up, so the rail is on by default.
+# Driving low power-cycles all three sensors.
+PB12 VDD_3V3_SENSORS_EN OUTPUT HIGH
+
+# ---------------------------------------- SPI1: ICM-42688-P (U5)
+PA5 SPI1_SCK SPI1
+PA6 SPI1_MISO SPI1
+PA7 SPI1_MOSI SPI1
+PA4 ICM42688_CS CS
+# INT1. Mapped as an input only: the upstream Invensensev3 driver reads
+# the FIFO on a timer and does not use the interrupt line.
+PC4 ICM42688_INT1 INPUT PULLDOWN
+# IMU pin 9 (INT2/FSYNC/CLKIN) via 1k. External clock is not used, so
+# the MCU side is left high impedance as the hardware brief requires.
+PA8 ICM42688_CLKIN INPUT FLOATING
+
+# ---------------------------------- SPI2: BMI088 (U6, OPTIONAL FIT)
+PB13 SPI2_SCK SPI2
+PB14 SPI2_MISO SPI2
+PB15 SPI2_MOSI SPI2
+PD10 BMI088_A_CS CS
+PD11 BMI088_G_CS CS
+# Interrupt lines, inputs only (driver polls). Pulled down so they do
+# not float when U6 is not fitted.
+PE10 BMI088_A_INT INPUT PULLDOWN
+PE12 BMI088_G_INT INPUT PULLDOWN
+
+# -------------------------------- SPI4: external optical-flow connector
+# J_FLOW1, 33R series on SCK and MOSI. Connector pin order is unverified.
+# PROVISIONAL.
+PE2 SPI4_SCK SPI4
+PE5 SPI4_MISO SPI4
+PE6 SPI4_MOSI SPI4
+PE4 FLOW_CS CS
+PE3 FLOW_INT INPUT PULLDOWN
+
+# ---------------------------------------------------------------- I2C
+# bus 0 = I2C2 (internal, BMP390), bus 1 = I2C1 (external, GPS connector)
+I2C_ORDER I2C2 I2C1
+PB10 I2C2_SCL I2C2
+PB11 I2C2_SDA I2C2
+PB8 I2C1_SCL I2C1
+PB9 I2C1_SDA I2C1
+define HAL_I2C_INTERNAL_MASK 1
+
+# -------------------------------------------------------------- UARTs
+# All 3.3 V, direct to the MCU, no inverters. The hwdef generator enables
+# the internal pull-up on every UART TX, RX and CTS pin by default.
+#
+#   SERIAL0  OTG1    USB CDC
+#   SERIAL1  USART2  J_TELEM1  telemetry radio (CTS/RTS)
+#   SERIAL2  USART3  J_COMP1   companion computer
+#   SERIAL3  UART4   J_GPS1    GPS
+#   SERIAL4  USART6  J_LIDAR1  rangefinder
+#   SERIAL5  USART1  J_RC1     RC receiver
+#   SERIAL6  UART7   TP1/TP2   spare / debug
+#   SERIAL7  UART8   J_ESC1    ESC telemetry, RX only
+# This is the order suggested in the handoff's UART_PORT_MAP.csv.
+SERIAL_ORDER OTG1 USART2 USART3 UART4 USART6 USART1 UART7 UART8
+
+# USART2 - J_TELEM1
+PD5 USART2_TX USART2
+PD6 USART2_RX USART2
+PD3 USART2_CTS USART2
+PD4 USART2_RTS USART2
+
+# USART3 - J_COMP1
+PD8 USART3_TX USART3
+PD9 USART3_RX USART3
+# J_COMP1 pin 4 spare GPIO, left as an input until a use is defined
+PB5 COMP_GPIO INPUT PULLDOWN GPIO(81)
+
+# UART4 - J_GPS1. PA1 5 V tolerance is unconfirmed: 3.3 V GPS modules only.
+PA0 UART4_TX UART4
+PA1 UART4_RX UART4
+
+# USART1 - J_RC1. Serial RC protocols only (CRSF/ELRS). There is no
+# hardware inverter; SBUS needs the USART RX inversion option.
+PB6 USART1_TX USART1
+PB7 USART1_RX USART1
+define DEFAULT_SERIAL5_PROTOCOL SerialProtocol_RCIN
+
+# USART6 - J_LIDAR1
+PC6 USART6_TX USART6 NODMA
+PC7 USART6_RX USART6 NODMA
+define DEFAULT_SERIAL4_PROTOCOL SerialProtocol_Rangefinder
+
+# UART8 - J_ESC1 pin 4, RX only (PE1 is not connected, so no TX pin).
+# Protocol left at None: the ESC is not selected. PROVISIONAL.
+PE0 UART8_RX UART8 NODMA
+define DEFAULT_SERIAL7_PROTOCOL SerialProtocol_None
+
+# UART7 - test pads TP1/TP2. PE7 is NOT 5 V tolerant.
+PE8 UART7_TX UART7 NODMA
+PE7 UART7_RX UART7 NODMA
+define DEFAULT_SERIAL6_PROTOCOL SerialProtocol_None
+
+# ---------------------------------------------------------------- CAN
+# FDCAN1 with SN65HVD230. PC13 drives the transceiver RS pin:
+# low = enabled, high = standby. 120R termination only with JP1 closed.
+PD0 CAN1_RX CAN1
+PD1 CAN1_TX CAN1
+PC13 GPIO_CAN1_SILENT OUTPUT PUSHPULL SPEED_LOW LOW GPIO(70)
+
+# ------------------------------------------------------------ microSD
+# SDMMC1, 4 bit, 3.3 V. Internal pull-ups on D0-D3 and CMD are enabled
+# by the hwdef generator.
+PC8 SDMMC1_D0 SDMMC1
+PC9 SDMMC1_D1 SDMMC1
+PC10 SDMMC1_D2 SDMMC1
+PC11 SDMMC1_D3 SDMMC1
+PC12 SDMMC1_CK SDMMC1
+PD2 SDMMC1_CMD SDMMC1
+# Card-detect switch to GND. Polarity is unconfirmed, so the firmware
+# does not use it; the pin is only given a defined level.
+PA10 SD_CARD_DETECT INPUT PULLUP
+
+# ------------------------------------------------------------- motors
+# TIM1 CH1-CH4. One timer, so one protocol and one rate for all four.
+# 100k external pull-downs hold the lines low through reset.
+# M1-M4 are NOT assigned to airframe arms and the J_ESC1 pin order is
+# not final. PROVISIONAL: output numbering only, no frame mapping.
+PE9 TIM1_CH1 TIM1 PWM(1) GPIO(50)
+PE11 TIM1_CH2 TIM1 PWM(2) GPIO(51)
+PE13 TIM1_CH3 TIM1 PWM(3) GPIO(52)
+PE14 TIM1_CH4 TIM1 PWM(4) GPIO(53)
+
+# ------------------------------------------------------------- servos
+# TIM4 CH1-CH4, 100R series. Signal only: servo power comes from an
+# external BEC on SERVO_5V, never from the flight controller.
+PD12 TIM4_CH1 TIM4 PWM(5) GPIO(54)
+PD13 TIM4_CH2 TIM4 PWM(6) GPIO(55)
+PD14 TIM4_CH3 TIM4 PWM(7) GPIO(56)
+PD15 TIM4_CH4 TIM4 PWM(8) GPIO(57)
+
+# ------------------------------------------------------------- buzzer
+# PA3 = TIM2_CH4, active high into a 2N7002 low-side switch. Driven as a
+# tone output; if an active (self-oscillating) buzzer is fitted this
+# needs changing to a plain GPIO. PROVISIONAL.
+PA3 TIM2_CH4 TIM2 GPIO(32) ALARM
+
+# --------------------------------------------------------------- LEDs
+# Active low (HAL_GPIO_LED_ON defaults to 0).
+PB2 LED_RED OUTPUT HIGH GPIO(90)
+PD7 LED_GREEN OUTPUT HIGH GPIO(91)
+PE15 LED_BLUE OUTPUT HIGH GPIO(92)
+define AP_NOTIFY_GPIO_LED_RGB_ENABLED 1
+define AP_NOTIFY_GPIO_LED_RGB_RED_PIN 90
+define AP_NOTIFY_GPIO_LED_RGB_GREEN_PIN 91
+define AP_NOTIFY_GPIO_LED_RGB_BLUE_PIN 92
+
+# ---------------------------------------------------------------- ADC
+# VREF+ = VDDA = 3.3 V rail through a ferrite bead, not a precision
+# reference.
+PC0 BATT_VOLTAGE_SENS ADC1 SCALE(1)
+PC1 BATT_CURRENT_SENS ADC1 SCALE(1)
+PC5 VDD_5V_SENS ADC1 SCALE(2)
+
+# Battery monitor: voltage only (type 3).
+# 11.0 is the schematic divider (100k top / 10k bottom, 1 %). It is only
+# the default of BATT_VOLT_MULT: resistor and VDDA tolerance mean each
+# board must be calibrated against a multimeter. PROVISIONAL until then.
+define HAL_BATT_MONITOR_DEFAULT 3
+define HAL_BATT_VOLT_PIN 10
+define HAL_BATT_VOLT_SCALE 11.0
+# PC1 carries the ESC's analog current output (ADC channel 11). There is
+# no current sensor on the FC and the scale is unknown until an ESC is
+# chosen. ArduPilot refuses to build a default current pin without a
+# current scale, and inventing a scale is not acceptable, so neither is
+# defined: current sensing is off. To use it later set BATT_MONITOR=4,
+# BATT_CURR_PIN=11 and BATT_AMP_PERVLT from the ESC's datasheet.
+
+# -------------------------------------------------------- unused pins
+# Not connected on the A0.1 schematic. The generator would leave them as
+# floating inputs; the handoff asks for pulled inputs instead.
+# (PC2/PC3 are the PC2_C/PC3_C pads on this package.)
+PA2 UNUSED_PA2 INPUT PULLDOWN
+PA15 UNUSED_PA15 INPUT PULLDOWN
+PB0 UNUSED_PB0 INPUT PULLDOWN
+PB1 UNUSED_PB1 INPUT PULLDOWN
+PB4 UNUSED_PB4 INPUT PULLDOWN
+PC2 UNUSED_PC2 INPUT PULLDOWN
+PC3 UNUSED_PC3 INPUT PULLDOWN
+PC14 UNUSED_PC14 INPUT PULLDOWN
+PC15 UNUSED_PC15 INPUT PULLDOWN
+PE1 UNUSED_PE1 INPUT PULLDOWN
+
+# ------------------------------------------------------------ storage
+# No FRAM: parameters live in the last two flash sectors.
+define HAL_STORAGE_SIZE 32768
+STORAGE_FLASH_PAGE 14
+
+# -------------------------------------------------------- SPI devices
+# SPI1/2/4 kernel clock is 100 MHz. ICM-42688-P limit is 24 MHz, so the
+# fastest usable divider gives 12.5 MHz. BMI088 limit is 10 MHz.
+SPIDEV icm42688 SPI1 DEVID1 ICM42688_CS MODE3 2*MHZ 16*MHZ
+SPIDEV bmi088_a SPI2 DEVID1 BMI088_A_CS MODE3 10*MHZ 10*MHZ
+SPIDEV bmi088_g SPI2 DEVID2 BMI088_G_CS MODE3 10*MHZ 10*MHZ
+# J_FLOW1 is intended for a PMW3901 module (upstream Pixart driver).
+# Declaring the device costs nothing: it is only probed if FLOW_TYPE is
+# set to Pixart, which no Ranger default does. Off-board cable, so the
+# clock is held at 2 MHz. PROVISIONAL (module pin order unverified).
+SPIDEV pixartflow SPI4 DEVID1 FLOW_CS MODE3 2*MHZ 2*MHZ
+
+# ----------------------------------------------------------------- DMA
+DMA_NOSHARE SPI1* TIM1_UP
+DMA_PRIORITY TIM1_UP SPI1* SPI2* ADC* USART2* USART3* UART4* USART1*
+
+# --------------------------------------------------------------- IMUs
+# Rotations below take each sensor into the BOARD frame, defined here as
+# X = north edge (USB-C + CAN), Y = east edge, Z = down, top side up.
+# That frame is a firmware convention, not the aircraft frame. Which
+# board edge faces the nose is not decided: set AHRS_ORIENTATION once it
+# is. See ranger/docs/SENSOR_ORIENTATION.md.
+#
+# ICM-42688-P: +X east, +Y south, +Z down  -> YAW_90
+# BMI088:      +X south, +Y west, +Z down  -> YAW_180
+#
+# Probe order makes the ICM-42688-P the first IMU. A missing BMI088 is
+# simply not registered and does not block boot.
+IMU Invensensev3 SPI:icm42688 ROTATION_YAW_90
+IMU BMI088 SPI:bmi088_a SPI:bmi088_g ROTATION_YAW_180
+
+# -------------------------------------------------------------- baro
+# BMP390 at 0x76 on the internal bus. The upstream BMP388 driver also
+# accepts the BMP390 chip ID (0x60).
+BARO BMP388 I2C:0:0x76
+
+# ------------------------------------------------------------ compass
+# No compass on the board. Probe the external bus (GPS connector) only.
+define ALLOW_ARM_NO_COMPASS
+define AP_COMPASS_PROBING_ENABLED 1
+define HAL_COMPASS_AUTO_ROT_DEFAULT 2
+
+# enable FAT filesystem support (needs a microSD defined via SDMMC)
+define HAL_OS_FATFS_IO 1

@@ -1,0 +1,23 @@
+# RangerH743 board defaults (Ranger-developed file).
+#
+# Only settings that follow from the board's electrical design, plus
+# conservative failsafe and logging defaults. Nothing here assigns a
+# frame type, a motor order, an IMU-to-airframe rotation or an ESC
+# protocol: those are open hardware decisions. FRAME_CLASS is left at 0,
+# so the vehicle refuses to arm until a frame is configured on purpose.
+
+# J_COMP1 companion link (USART3 = SERIAL2): MAVLink2
+SERIAL2_PROTOCOL 2
+SERIAL2_BAUD 921
+
+# no safety switch on the board
+BRD_SAFETY_DEFLT 0
+
+# failsafes: radio loss -> RTL/land, GCS loss -> RTL/land, EKF -> land
+FS_THR_ENABLE 1
+FS_GCS_ENABLE 1
+FS_EKF_ACTION 1
+
+# logging to microSD, armed flights only
+LOG_BACKEND_TYPE 1
+LOG_DISARMED 0
